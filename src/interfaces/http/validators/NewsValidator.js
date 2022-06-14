@@ -10,9 +10,10 @@ class NewsValidator extends BaseValidator {
     const schema = {
       title: Joi.string().required(),
       content: Joi.string().required(),
-      status: Joi.string().required(),
+      status: Joi.valid('draft', 'published').required(),
       topicId: Joi.number().required(),
       publishedAt: Joi.date().required(),
+      tags: Joi.string()
     }
 
     return super.validateBody(schema, body);
@@ -31,12 +32,21 @@ class NewsValidator extends BaseValidator {
     const schema = {
       title: Joi.string().required(),
       content: Joi.string().required(),
-      status: Joi.string().required(),
+      status: Joi.valid('draft', 'published').required(),
       topicId: Joi.number().required(),
       publishedAt: Joi.date().required(),
+      tags: Joi.string()
     }
 
     return super.validateBody(schema, body);
+  }
+
+  async validateShow(params) {
+    const paramSchema = {
+      id: Joi.number().required(),
+    }
+
+    return super.validateParam(paramSchema, params);
   }
 
   async validateDestroy(params) {

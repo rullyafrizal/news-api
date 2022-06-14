@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
 
       this.belongsToMany(models.models.TagModel, {
         through: 'news_tags',
+        as: 'tags',
         foreignKey: 'newsId',
         otherKey: 'tagId',
         timestamps: false,

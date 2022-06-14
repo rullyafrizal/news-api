@@ -8,13 +8,6 @@ class UpdateTopic {
   async execute(args) {
     // Validate
     const topicData = new TopicUpdateRequest(args.data);
-    const { valid, errors } = topicData.validate(args.data);
-
-    if (!valid) {
-      const error = new Error('Validation failed!');
-      error.errors = errors;
-      throw error;
-    }
 
     // Find the topic
     const topic = await this.topicRepository.findById(args.id);

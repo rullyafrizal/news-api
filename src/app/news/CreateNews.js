@@ -1,40 +1,46 @@
-const News = require('src/domain/News');
-const Tag = require('src/domain/Tag');
 const Request = require('src/domain/news/CreateNews');
-const slugify = require('slugify');
-const SanitizeHtml = require('sanitize-html');
 
 class CreateNews {
-  constructor({ newsRepository, tagRepository }) {
+  constructor({ newsRepository, tagRepository, topicRepository }) {
     this.newsRepository = newsRepository;
     this.tagRepository = tagRepository;
+    this.topicRepository = topicRepository;
   }
 
   async execute(args) {
     try {
-      const newsRequest = new Request({
-        title: args.title,
-        slug: slugify('halo', { lower: true }),
-        content: SanitizeHtml('halo'),
-        topicId: args.topicId,
-        publishedAt: args.publishedAt,
-        status: args.status,
-      });
-      const { valid, errors } = newsRequest.validateBody();
-
-      if (!valid) {
-        const error = new Error('Validation failed!');
-        error.errors = errors;
+      const topic = await this.topicRepository.findById(args.topicId);
+      if (!topic) {
+        const error = new Error('topic not found.');
+        error.errors = [{ message: 'topic not found.', path: ['id'] }];
         throw error;
       }
 
-      const tags = args.tags.split(',').map(tag => tag.trim());
+      const newsRequest = new Request({
+        title: args.title,
+        slug: args.title,
+        content: args.content,
+        topicId: args.topicId,
+        publishedAt: args.publishedAt,
+        status: args.status,
+        tags: args.tags
+      });
 
-      const newsCreated = await this.newsRepository.create(news);
+      const { title, slug, content, topicId, publishedAt, status, tags } = newsRequest.getNewsRequest();
 
-      const tagsCreated = await Promise.all(tags.map(tag => this.tagRepository.create({ name: tag })));
+      const newsCreated = await this.newsRepository.create({
+        title,
+        slug,
+        content,
+        topicId,
+        publishedAt,
+        status
+      });
 
-      await Promise.all(tagsCreated.map(tag => newsCreated.addTag(tag)));
+      if (tags.length > 0) {
+        const tagsCreated = await Promise.all(tags.map(tag => this.tagRepository.findOrCreate(tag)));
+        await Promise.all(tagsCreated.map(tag => newsCreated.addTag(tag)));
+      }
 
       return newsCreated.toJSON();
     } catch (error) {

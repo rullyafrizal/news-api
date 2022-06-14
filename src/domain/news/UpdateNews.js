@@ -2,14 +2,14 @@ const { attributes } = require('structure');
 const slugify = require('slugify');
 const SanitizeHtml = require('sanitize-html');
 
-const CreateNews = attributes({
+const UpdateNews = attributes({
   title: String,
   content: String,
   status: String,
   topicId: Number,
   publishedAt: Date,
   tags: String,
-})(class CreateNews {
+})(class UpdateNews {
   getNewsRequest() {
     this.status = this.status.toUpperCase();
     this.slug = slugify(this.title, { lower: true });
@@ -27,4 +27,4 @@ const CreateNews = attributes({
   }
 });
 
-module.exports = CreateNews;
+module.exports = UpdateNews;

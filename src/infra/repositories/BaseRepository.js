@@ -110,6 +110,26 @@ class BaseRepository {
     return this._findByField('id', id, false);
   }
 
+
+  /**
+   * Find a row using the column name and value.
+   * @param field
+   * @param value
+   * @param includes
+   * @returns {Promise<Model|null>}
+   */
+  async findWithIncludes(field, value, includes = []) {
+    // set the where clause
+    const where = { [field]: value };
+
+    // perform search
+    return await this.model.findOne({ where, include: includes }, { rejectOnEmpty: true });
+  }
+
+  async findAllWithIncludes(where, includes = []) {
+    return this.model.findAll({ where, include: includes }, { rejectOnEmpty: true });
+  }
+
   /**
    * Generic function for finding rows using a field.
    *
@@ -122,12 +142,6 @@ class BaseRepository {
   _findByField(field, value, active = true) {
     // set the where clause
     const where = { [field]: value };
-
-    // if (active) {
-    //   where.active = {
-    //     [Op.eq]: 1,
-    //   };
-    // }
 
     // perform search
     return this.model.findOne({ where }, { rejectOnEmpty: true });

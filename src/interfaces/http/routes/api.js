@@ -13,10 +13,6 @@ module.exports = () => {
   router.use(bodyParser.json());
   router.use(compression());
 
-  // Routes
-  router.post('/auth/login', createController('AuthController').login);
-  router.post('/auth/register', createController('AuthController').register);
-
   // Topics
   router.post('/topics', createController('TopicController').store);
   router.get('/topics', createController('TopicController').index);
@@ -25,7 +21,11 @@ module.exports = () => {
   router.delete('/topics/:id', createController('TopicController').destroy);
 
   // News
+  router.get('/news', createController('NewsController').index);
   router.post('/news', createController('NewsController').store);
+  router.put('/news/:id', createController('NewsController').update);
+  router.delete('/news/:id', createController('NewsController').destroy);
+  router.get('/news/:id', createController('NewsController').show);
 
   return router;
 };
