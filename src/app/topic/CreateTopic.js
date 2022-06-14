@@ -20,8 +20,8 @@ class StoreTopic {
     // Find the user
     const existing = await this.topicRepository.find('name', args.name);
     if (existing) {
-      const error = new Error('Topic already exists.');
-      error.errors = [{ message: 'Topic already exists.', path: ['name'] }];
+      const error = new Error('topic already exists.');
+      error.errors = [{ message: 'topic already exists.', path: ['name'] }];
       throw error;
     }
 

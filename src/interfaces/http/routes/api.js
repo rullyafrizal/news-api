@@ -24,5 +24,8 @@ module.exports = () => {
   router.put('/topics/:id', createController('TopicController').update);
   router.delete('/topics/:id', createController('TopicController').destroy);
 
+  // News
+  router.post('/news', createController('NewsController').store);
+
   return router;
 };

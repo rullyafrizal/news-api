@@ -19,8 +19,8 @@ class UpdateTopic {
     // Find the topic
     const topic = await this.topicRepository.findById(args.id);
     if (!topic) {
-      const error = new Error('Topic not found.');
-      error.errors = [{ message: 'Topic not found.', path: ['id'] }];
+      const error = new Error('topic not found.');
+      error.errors = [{ message: 'topic not found.', path: ['id'] }];
       throw error;
     }
 

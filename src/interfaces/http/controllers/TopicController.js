@@ -34,7 +34,7 @@ class TopicController extends BaseController {
       });
     } catch (e) {
       switch (e.message) {
-        case 'Topic not found.':
+        case 'topic not found.':
           return res.status(Status.NOT_FOUND).json(e.errors);
         default:
           return res.status(Status.SERVICE_UNAVAILABLE).json(e);
@@ -55,7 +55,7 @@ class TopicController extends BaseController {
     } catch (e) {
       console.log(e);
       switch (e.message) {
-        case 'Topic Already Exists.':
+        case 'topic Already Exists.':
         case 'Validation failed!':
           return res.status(Status.BAD_REQUEST).json(e.errors);
 
@@ -78,7 +78,7 @@ class TopicController extends BaseController {
     } catch (e) {
       console.log(e);
       switch (e.message) {
-        case 'Topic not found.':
+        case 'topic not found.':
           return res.status(Status.NOT_FOUND).json(e.errors);
         case 'Validation failed!':
           return res.status(Status.BAD_REQUEST).json(e.errors);
@@ -101,7 +101,7 @@ class TopicController extends BaseController {
     } catch (e) {
       console.log(e);
       switch (e.message) {
-        case 'Topic not found.':
+        case 'topic not found.':
           return res.status(Status.NOT_FOUND).json(e.errors);
         default:
           return res.status(Status.SERVICE_UNAVAILABLE).json(e);
