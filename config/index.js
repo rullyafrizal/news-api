@@ -17,19 +17,27 @@ const loadDatabaseConfig = () => {
   throw new Error('Database configuration is required.');
 };
 
+const loadRedisConfig = () => {
+  // check if the database config exists
+  if (fs.existsSync(path.join(__dirname, './redis.js'))) {
+    return require('./redis')[ENV];
+  }
+
+  // throw an error
+  throw new Error('Redis configuration is required.');
+}
+
 const ENV = env(process.env.NODE_ENV || 'development');
 
 // load up the database configuration
 const dbConfig = loadDatabaseConfig();
+const redisConfig = loadRedisConfig();
 
 // setup the config
 const config = {
   env: ENV,
   db: dbConfig,
-  jwt: {
-    secret: process.env.APP_KEY,
-    ttl: process.env.APP_JWT_TTL,
-  },
+  redis: redisConfig,
   debug: process.env.APP_DEBUG === 'true' ? true : false,
   port: process.env.APP_PORT,
 };

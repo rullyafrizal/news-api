@@ -4,6 +4,10 @@ const compression = require('compression');
 
 // Utils
 const createController = require('src/interfaces/http/utils/create-controller');
+const {
+  preInterceptorRedisMiddleware,
+  postInterceptorRedisMiddleware,
+} = require("../middlewares/cache-middleware");
 
 module.exports = () => {
   const router = new Router();
@@ -21,11 +25,17 @@ module.exports = () => {
   router.delete('/topics/:id', createController('TopicController').destroy);
 
   // News
-  router.get('/news', createController('NewsController').index);
+  router.get('/news',
+    preInterceptorRedisMiddleware,
+    createController('NewsController').index
+  );
   router.post('/news', createController('NewsController').store);
   router.put('/news/:id', createController('NewsController').update);
   router.delete('/news/:id', createController('NewsController').destroy);
-  router.get('/news/:id', createController('NewsController').show);
+  router.get('/news/:id',
+    preInterceptorRedisMiddleware,
+    createController('NewsController').show
+  );
 
   return router;
 };

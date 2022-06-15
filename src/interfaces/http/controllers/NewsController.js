@@ -1,6 +1,6 @@
-const Status = require('http-status');
 const BaseController = require('./BaseController');
 const NewsValidator = require('../validators/NewsValidator');
+const { setCache, deleteCache, getCache, scanAndDeleteCache } = require('../utils/redis');
 
 class NewsController extends BaseController {
   constructor() {
@@ -11,6 +11,19 @@ class NewsController extends BaseController {
     try {
       const getAllNews = req.container.resolve('getAllNews');
       const result = await getAllNews.execute(req.query);
+
+      if (req.needCaching && !Object.keys(req.query).length) {
+        await setCache('all', JSON.stringify(result));
+      } else if (req.needCaching) {
+        const keys = Object.keys(req.query);
+        let keyname = 'all:'
+
+        keys.map(async key => {
+          keyname += key + ':' + req.query[key] + ':';
+        })
+
+        await setCache(keyname, JSON.stringify(result));
+      }
 
       return super.successResponse(res, 'get:all_news:success', result);
     } catch (e) {
@@ -30,6 +43,8 @@ class NewsController extends BaseController {
       const createNews = req.container.resolve('createNews');
       const result = await createNews.execute(req.body);
 
+      await scanAndDeleteCache('all*');
+
       return super.successResponse(res, 'create:news:success', result);
     } catch (e) {
       console.log(e);
@@ -40,7 +55,7 @@ class NewsController extends BaseController {
     }
   }
 
-  async show (req, res) {
+  async show (req, res, next) {
     try {
       const { success, message, error } = await (new NewsValidator()).validateShow(req.params);
 
@@ -51,7 +66,11 @@ class NewsController extends BaseController {
       const getNews = req.container.resolve('getNews');
       const result = await getNews.execute(req.params.id);
 
-      return super.successResponse(res, 'show:news:success', result);
+      if (req.needCaching && result) {
+        await setCache(req.params.id, JSON.stringify(result));
+      }
+
+      return super.successResponse(res, 'get:news:success', result);
     } catch (e) {
       console.log(e);
       switch (e.message) {
@@ -73,6 +92,9 @@ class NewsController extends BaseController {
 
       const updateNews = req.container.resolve('updateNews');
       const result = await updateNews.execute(req.params.id, req.body);
+
+      await scanAndDeleteCache('all*');
+      await deleteCache(req.params.id);
 
       return super.successResponse(res, 'update:news:success', result);
     } catch (e) {
@@ -96,6 +118,9 @@ class NewsController extends BaseController {
 
       const deleteNews = req.container.resolve('deleteNews');
       const result = await deleteNews.execute(req.params.id);
+
+      await scanAndDeleteCache('all*');
+      await deleteCache(req.params.id);
 
       return super.successResponse(res, 'delete:news:success', result);
     } catch (e) {

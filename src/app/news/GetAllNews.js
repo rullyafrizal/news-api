@@ -19,16 +19,12 @@ class GetAllNews {
 
       if (status) where.status = status.toUpperCase();
 
-      console.log(where)
-
       if (topic) {
         const topicFound = await this.topicRepository.find('name', topic);
-        if (!topicFound) {
-          const error = new Error('topic not found.');
-          error.errors = [{ message: 'topic not found.', path: ['id'] }];
-          throw error;
+
+        if (topicFound) {
+          where.topicId = topicFound.id;
         }
-        where.topicId = topicFound.id;
       }
 
       const news = await this.newsRepository.findAllWithIncludes(where, [

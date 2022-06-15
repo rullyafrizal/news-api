@@ -43,6 +43,4 @@ container.register({
   containerMiddleware: asValue(scopePerRequest(container)),
 });
 
-// console.log(container.registrations);
-
 module.exports = container;
