@@ -9,7 +9,7 @@ const setCache = async (key, value, ttl = cacheTTL) => {
 }
 
 const deleteCache = async (key) => {
-  return await redisClient.del(key);
+  return (await redisClient).del(key);
 }
 
 const getCache = async (key) => {

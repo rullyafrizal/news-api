@@ -58,6 +58,8 @@ class UpdateNews {
         const tagsCreated = await Promise.all(tags.map(tag => this.tagRepository.findOrCreate(tag)));
         await Promise.all(tagsCreated.map(tag => news.addTag(tag)));
       }
+
+      return newsUpdated;
     } catch (error) {
       throw error;
     }
