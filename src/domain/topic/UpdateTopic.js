@@ -1,7 +1,10 @@
 const { attributes } = require('structure');
 
 const UpdateTopic = attributes({
-  name: String
+  name: {
+    type: String,
+    required: true,
+  }
 })(class UpdateTopic {});
 
 module.exports = UpdateTopic;

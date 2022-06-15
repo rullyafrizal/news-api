@@ -12,7 +12,7 @@ services:
       - db:/var/lib/postgresql/data
       - ./db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
   cache:
-    image: redis:6.2-alpine
+    image: redis:7.0.2-alpine
     restart: always
     ports:
       - '6379:6379'

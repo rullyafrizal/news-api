@@ -19,6 +19,7 @@ class StoreTopic {
 
     // Find the user
     const existing = await this.topicRepository.find('name', args.name);
+
     if (existing) {
       const error = new Error('topic already exists.');
       error.errors = [{ message: 'topic already exists.', path: ['name'] }];
@@ -31,15 +32,14 @@ class StoreTopic {
         ...args,
       };
 
-      // Create user
+      // Create topic
       const newTopic = await this.topicRepository.create(data);
 
-      // Remove password and wrap to a domain
+      // Wrap to a domain
       const domainTopic = new Topic(newTopic.dataValues);
 
       return domainTopic.toJSON();
     } catch (error) {
-      console.log(error);
       throw error
     }
   }

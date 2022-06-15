@@ -1,4 +1,5 @@
 const Request = require('src/domain/news/CreateNews');
+const News = require('src/domain/News');
 
 class CreateNews {
   constructor({ newsRepository, tagRepository, topicRepository }) {
@@ -26,7 +27,10 @@ class CreateNews {
         tags: args.tags
       });
 
-      const { title, slug, content, topicId, publishedAt, status, tags } = newsRequest.getNewsRequest();
+      const {
+        title, slug, content, topicId,
+        publishedAt, status, tags
+      } = newsRequest.getNewsRequest();
 
       const newsCreated = await this.newsRepository.create({
         title,
@@ -42,7 +46,9 @@ class CreateNews {
         await Promise.all(tagsCreated.map(tag => newsCreated.addTag(tag)));
       }
 
-      return newsCreated.toJSON();
+      const domainNews = new News(newsCreated.dataValues);
+
+      return domainNews.toJSON();
     } catch (error) {
       throw error;
     }
