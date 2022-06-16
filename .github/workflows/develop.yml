@@ -2,11 +2,14 @@ name: node-ddd-develop
 
 on:
   pull_request:
-    branches: develop
+    branches:
+      - develop
+      - master
 
   push:
     branches:
       - develop
+      - master
 
 jobs:
   test:
