@@ -8,7 +8,7 @@ services:
       - POSTGRES_PASSWORD=secret
     tty: true
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes:
       - db:/var/lib/postgresql/data
       - ./docker/db/:/docker-entrypoint-initdb.d/
@@ -17,7 +17,7 @@ services:
     container_name: news-cache
     restart: always
     ports:
-      - '6379:6379'
+      - "6379:6379"
     command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
     volumes:
       - cache:/data
@@ -30,25 +30,15 @@ services:
       - cache
     ports:
       - 3301:3300
-    environment:
-      NODE_ENV: development
-      APP_DEBUG: true
-      APP_URL: http://localhost
-      APP_PORT: 3300
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USERNAME: root
-      DB_PASSWORD: secret
-      DB_DATABASE: news_api
-      DB_DIALECT: postgres
-      REDIS_HOST: cache
-      REDIS_PORT: 6379
-      REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    env_file:
+      - ".env"
     links:
       - db
       - cache
     volumes:
-      - ./docker/volume/api:/src
+      - type: bind
+        source: .
+        target: /app
 
 volumes:
   db:

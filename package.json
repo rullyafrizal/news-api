@@ -28,6 +28,7 @@
     "express": "^4.17.1",
     "helmet": "^5.1.0",
     "http-status": "^1.4.2",
+    "inflection": "^1.13.2",
     "joi": "^17.6.0",
     "morgan": "^1.10.0",
     "mysql2": "^2.2.5",
