@@ -37,9 +37,6 @@ services:
       - cache
     volumes:
       - ./:/app
-#      - type: bind
-#        source: .
-#        target: /app
 
 volumes:
   db:
