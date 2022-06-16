@@ -6,7 +6,6 @@ const compression = require('compression');
 const createController = require('src/interfaces/http/utils/create-controller');
 const {
   preInterceptorRedisMiddleware,
-  postInterceptorRedisMiddleware,
 } = require("../middlewares/cache-middleware");
 
 module.exports = () => {

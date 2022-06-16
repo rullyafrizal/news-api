@@ -1,10 +1,10 @@
 {
-  "name": "node-ddd",
+  "name": "news-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:http": "cross-env NODE_PATH=. nodemon",
+    "start": "cross-env NODE_PATH=. nodemon",
     "test": "nyc npm run test:unit",
     "test:unit": "cross-env NODE_PATH=. NODE_ENV=test mocha --config test/unit.mocharc.js",
     "db:migrate": "cross-env NODE_PATH=. sequelize db:migrate",
@@ -13,7 +13,7 @@
     "db:revert:all": "cross-env NODE_PATH=. sequelize db:migrate:undo:all",
     "db:seed": "cross-env NODE_PATH=. sequelize db:seed:all"
   },
-  "author": "",
+  "author": "rullyafrizal",
   "license": "ISC",
   "dependencies": {
     "awilix": "^4.2.6",
@@ -35,6 +35,7 @@
     "redis": "^4.1.0",
     "sanitize-html": "^2.7.0",
     "sequelize": "^6.3.5",
+    "sequelize-cli": "^6.4.1",
     "slugify": "^1.6.5",
     "structure": "^2.0.1"
   },

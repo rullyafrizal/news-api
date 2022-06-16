@@ -43,7 +43,7 @@ class BaseController {
       .send({
         code: statusCode,
         message: message,
-        details: process.env.DEBUG === 'true' ? error.stack : 'error stack can be showed'
+        details: process.env.APP_DEBUG === 'true' ? error.stack : 'error stack can be showed'
       })
   }
 
