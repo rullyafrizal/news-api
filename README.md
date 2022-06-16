@@ -33,3 +33,6 @@
 7. Access the route list in container log
 8. The bind local url is in `http://localhost:3301`
 9. Run `docker logs news-api` to access the log and see the route list
+
+## Postman API Docs
+- https://documenter.getpostman.com/view/14542872/UzBiR9yJ

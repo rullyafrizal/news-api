@@ -20,6 +20,11 @@ class DeleteNews {
 
       await Promise.all(news.tags.map(tag => news.removeTag(tag)));
 
+      const deletedNews = news.dataValues
+      deletedNews.status = 'DELETED'
+
+      await this.newsRepository.update(id, deletedNews)
+
       await this.newsRepository.destroy(id);
 
       return {
