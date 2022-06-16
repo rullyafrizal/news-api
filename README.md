@@ -29,7 +29,7 @@
   ```
   npm run db:seed
   ```
-6. This repository is bind mounted with the container, but if there is any change with the local `.env` please restart the container
+6. This repository is bind mounted with the container, but if there is any change with the local code, please restart the container
 7. Access the route list in container log
 8. The bind local url is in `http://localhost:3301`
 9. Run `docker logs news-api` to access the log and see the route list

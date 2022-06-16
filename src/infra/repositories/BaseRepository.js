@@ -126,7 +126,16 @@ class BaseRepository {
     return await this.model.findOne({ where, include: includes }, { rejectOnEmpty: true });
   }
 
-  async findAllWithIncludes(where, includes = []) {
+
+  async findAllWithIncludes(where, includes = [], attr) {
+    if (attr) {
+      return this.model.findAll({
+        where,
+        include: includes,
+        attributes: attr
+      }, { rejectOnEmpty: true });
+    }
+
     return this.model.findAll({ where, include: includes }, { rejectOnEmpty: true });
   }
 

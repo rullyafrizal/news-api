@@ -37,6 +37,10 @@ class GetAllNews {
           model: this.topicRepository.model,
           as: 'topic'
         },
+      ], [
+        'id', 'title', 'slug',
+        'content', 'status', 'createdAt',
+        'updatedAt', 'publishedAt'
       ]);
 
       return news;
