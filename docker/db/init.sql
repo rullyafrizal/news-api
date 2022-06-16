@@ -1,0 +1,6 @@
+DROP DATABASE IF EXISTS news_api;
+
+CREATE DATABASE news_api WITH OWNER = root ENCODING = 'UTF8' CONNECTION LIMIT = -1;
+
+\c news_api;
+

@@ -13,10 +13,7 @@ module.exports = (controller) => {
     const ControllerInstance = require(`${controllerPath}`);
 
     // Instantiate it
-    const Controller = new ControllerInstance();
-
-    // Return the controller
-    return Controller;
+    return new ControllerInstance();
   } catch (error) {
     console.error('cc', error);
   }

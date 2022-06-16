@@ -1,7 +1,4 @@
 const express = require('express');
-const path = require('path');
-const fs = require('fs');
-const morgan = require('morgan');
 const routeList = require('express-routes-catalogue');
 
 // Routes configuration
@@ -20,9 +17,6 @@ class Server {
    * Boots up the server
    */
   start() {
-    // loadup the template engine
-    // this._template();
-
     // enable the configuration of the server.
     this._configure();
 
@@ -40,9 +34,6 @@ class Server {
    * Server Configurations
    */
   _configure() {
-    // remove the Powered by Express header
-    // this.app.disable('x-powered-by');
-
     // load up the routes
     this.app.use(routes());
 
@@ -53,27 +44,6 @@ class Server {
     this.app.use((req, res) => {
       return res.status(404).json({ error: 'Not found' });
     });
-  }
-
-  /**
-   * Configures the template engine to use.
-   *
-   * @memberof Server
-   */
-  _template() {
-    // static folder
-    // this.app.use(express.static('public'));
-    // // set the template engine
-    // this.app.engine(
-    //   'html',
-    //   hbs.express4({
-    //     extname: '.html',
-    //   })
-    // );
-    // // set the view engine
-    // this.app.set('view engine', 'html');
-    // // set the path of the templates
-    // this.app.set('views', `${__dirname}/resources/views`);
   }
 }
 
